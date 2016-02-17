@@ -58,6 +58,8 @@ public class ChessBoard
    */
   void move(int fromX, int fromY, int toX, int toY)
   {
+    System.out.println("haveChess "+haveChess(fromX,fromY));
+    System.out.println("isMoveValid  "+isMoveValid(fromX,fromY,toX,toY));
     if(haveChess(fromX, fromY) && isMoveValid(fromX, fromY, toX, toY))
     {
       Chessman fromChess = board.get(new Point(fromX, fromY));
@@ -94,68 +96,68 @@ public class ChessBoard
                   {
                     //at centre points & edge points
                     if((fromX == 4 &&fromY == 1)&&
-                        (fromX == 3 &&fromY == 0)&&
-                        (fromX == 5 &&fromY == 0)&&
-                        (fromX == 5 &&fromY == 2)&&
-                        (fromX == 3 &&fromY == 2))
+                       (fromX == 3 &&fromY == 0)&&
+                       (fromX == 5 &&fromY == 0)&&
+                       (fromX == 5 &&fromY == 2)&&
+                       (fromX == 3 &&fromY == 2))
                     {
                       //System.out.println("enter loop");
                       return true;
                     }
                     //at remain points
                     else if((Math.abs(toY-fromY) == 1 && Math.abs(toX-fromX) != 1)||
-                        (Math.abs(toY-fromY) != 1 && Math.abs(toX-fromX) == 1))
+                            (Math.abs(toY-fromY) != 1 && Math.abs(toX-fromX) == 1))
                       return true;
                   }
                   //verify if JAING from BLACK country
                   if((chessman.getCountry() == Country.BLACK)&&
-                      (toX>=3 && toX<=5)&& 
-                      (toY>=7 && toY<=9)&&
-                      (Math.abs(toX-fromX) == 1 || Math.abs(toY-fromY) == 1))
+                          (toX>=3 && toX<=5)&& 
+                          (toY>=7 && toY<=9)&&
+                          (Math.abs(toX-fromX) == 1 || Math.abs(toY-fromY) == 1))
                   {
                     if((fromX == 4 && fromY == 8)&&
-                        (fromX == 3 && fromY == 9)&&
-                        (fromX == 5 && fromY == 9)&&
-                        (fromX == 5 && fromY == 7)&&
-                        (fromX == 3 && fromY == 7))
+                       (fromX == 3 && fromY == 9)&&
+                       (fromX == 5 && fromY == 9)&&
+                       (fromX == 5 && fromY == 7)&&
+                       (fromX == 3 && fromY == 7))
                       return true;
 
                     else if((Math.abs(toY-fromY) == 1 && Math.abs(toX-fromX) != 1)||
-                        (Math.abs(toY-fromY) != 1 && Math.abs(toX-fromX) == 1))
+                            (Math.abs(toY-fromY) != 1 && Math.abs(toX-fromX) == 1))
                       return true;
                   }
                   System.out.println((Math.abs(toX-fromX))+" "+ (Math.abs(toY-fromY)));
                   break;
-
+      
       case SHI: if((chessman.getCountry() == Country.RED)&&
-                    (toX>=3 && toX <=5)&& (toY>=0 && toY <=2)&&
-                    (Math.abs(toY-fromY) == 1 && Math.abs(toX-fromX) == 1)) //only allow to move 1 distance in diagnoal distance
-                  return true;
+                   (toX>=3 && toX <=5)&& (toY>=0 && toY <=2)&&
+                   (Math.abs(toY-fromY) == 1 && Math.abs(toX-fromX) == 1)) //only allow to move 1 distance in diagnoal distance
+                    return true;
 
                 if((chessman.getCountry() == Country.BLACK)&&
-                    (toX>=3 && toX <=5)&&
-                    (toY>=7 && toY <=9)&&
-                    (Math.abs(toY-fromY) == 1 && Math.abs(toX-fromX) == 1))
-                  return true;
+                   (toX>=3 && toX <=5)&&
+                   (toY>=7 && toY <=9)&&
+                   (Math.abs(toY-fromY) == 1 && Math.abs(toX-fromX) == 1))
+                    return true;
                 break;
 
       case XIANG: if((chessman.getCountry() == Country.RED)&&
-                      (Math.abs(toY-fromY) == 2 && Math.abs(toX-fromX) == 2)&&
-                      (toX>=0 && toX<=8)&&
-                      (toY>=0 && toY<=4)&&
-                      (haveChess(Math.max(fromX, toX)-1, Math.max(fromY,toY)-1) == false)) //bie xiang tui
+                     (Math.abs(toY-fromY) == 2 && Math.abs(toX-fromX) == 2)&&
+                     (toX>=0 && toX<=8)&&
+                     (toY>=0 && toY<=4)&&
+                     (haveChess(Math.max(fromX, toX)-1, Math.max(fromY,toY)-1) == false)) //bie xiang tui
                     return true;
-
+                
                   if((chessman.getCountry() == Country.BLACK)&&
-                      (Math.abs(toY-fromY) == 2 && Math.abs(toX-fromX) == 2)&&
-                      (toX>=0 && toX<=8)&&
-                      (toY>=5 && toY<=9)&&
-                      (haveChess(Math.max(fromX, toX)-1, Math.max(fromY,toY)-1) == false)) //bie xiang tui
+                     (Math.abs(toY-fromY) == 2 && Math.abs(toX-fromX) == 2)&&
+                     (toX>=0 && toX<=8)&&
+                     (toY>=5 && toY<=9)&&
+                     (haveChess(Math.max(fromX, toX)-1, Math.max(fromY,toY)-1) == false)) //bie xiang tui
                   {
-                    System.out.println((toX-1)+" "+(toY-1));
-                    return true;
+                   System.out.println((toX-1)+" "+(toY-1));
+                   return true;
                   }
-                  break;
+                break;
 
       case MA: if(Math.abs(toY-fromY) == 2 && Math.abs(toX-fromX) == 1)
                {
@@ -174,54 +176,55 @@ public class ChessBoard
                }
                break;
 
-      case JV: if((countChessForward(fromX, fromY, toX, toY) == 0)&&
-                   (fromX == toX || fromY == toY)) 
-                 return true;
-               break;
-
-
-               //move similar JV when not attacking
-      case PAO:  if((countChessForward(fromX,fromY,toX,toY) == 0)&&
-                     (fromX == toX || fromY == toY)&&
-                     (haveChess(toX, toY) == false)) 
-                   return true;
-                 //when attacking, there must have one unit in the middle
-               else if((countChessForward(fromX,fromY,toX,toY) == 1)&&
-                   (fromX == toX || fromY == toY))
-               {
-                 System.out.println(countChessForward(fromX,fromY,toX,toY));
-                 return true;
-               }
-               break;
+     case JV: if((countChessForward(fromX, fromY, toX, toY) == 0)&&
+                (fromX == toX || fromY == toY)) 
+                return true;
+                break;
+      
+    
+                 //move similar JV when not attacking
+     case PAO:  if((countChessForward(fromX,fromY,toX,toY) == 0)&&
+                   (fromX == toX || fromY == toY)&&
+                   (haveChess(toX, toY) == false)) 
+                  return true;
+                //when attacking, there must have one unit in the middle
+                else if((countChessForward(fromX,fromY,toX,toY) == 1)&&
+                  (fromX == toX || fromY == toY))
+                {
+                  System.out.println(countChessForward(fromX,fromY,toX,toY));
+                  return true;
+                }
+                break;
 
       case BING: if((chessman.getCountry() == Country.RED)&&
-                     (fromX == toX)&&
-                     (fromY < toY)&& //BING never move backward
-                     (toY-fromY == 1)) 
+                    (fromX == toX)&&
+                    (fromY < toY)&& //BING never move backward
+                    (toY-fromY == 1)) 
                    return true;
 
                  if((chessman.getCountry() == Country.BLACK)&&
-                     (fromX == toX)&&
-                     (fromY > toY)&&
-                     (fromY-toY == 1))
-                   return true;
+                    (fromX == toX)&&
+                    (fromY > toY)&&
+                    (fromY-toY == 1))
+                  return true;
 
                  //horizontal move only allowed when BING has acrossed the river
                  if(fromY == toY)
                  {
-                   if((chessman.getCountry() == Country.RED)&&
-                       (fromY > 4)&& //RED BING had acrossed the river
-                       (Math.abs(fromX-toX) == 1))
-                     return true;
-
-                   if((chessman.getCountry() == Country.BLACK)&&
-                       (fromY < 5)&& //BLACK BING had acrossed the river
-                       (Math.abs(fromX-toX) == 1))
-                     return true;
+                  if((chessman.getCountry() == Country.RED)&&
+                     (fromY > 4)&& //RED BING had acrossed the river
+                     (Math.abs(fromX-toX) == 1))
+                      return true;
+  
+                  if((chessman.getCountry() == Country.BLACK)&&
+                     (fromY < 5)&& //BLACK BING had acrossed the river
+                     (Math.abs(fromX-toX) == 1))
+                      return true;
                  }
-                 break;
+               break;
     }
     System.out.println("invalid move");
+    System.out.println(Math.abs(toX-fromX)+" "+Math.abs(toY-fromY));
     return false;
   }
 

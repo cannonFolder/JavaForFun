@@ -13,6 +13,7 @@ class Game
     //while(cb.isWin() == false)
     System.out.println("enter");
     String end ="";
+    cb.printBoard();
     while(!(end.equals("exit")))
     {
       String input = sc.next();
@@ -29,7 +30,8 @@ class Game
         System.out.println("fromY "+fromY);
         System.out.println("toX "+toX);
         System.out.println("toY "+toY);
-        //cb.move(fromX, formY, toX, toY);
+        cb.move(fromX, fromY, toX, toY);
+        cb.printBoard();
       }
     }
   }
