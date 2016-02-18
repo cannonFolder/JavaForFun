@@ -14,13 +14,12 @@ class Game
 
     cb.printBoard();
     String end ="";
-    Country CountryFromlastMoveChessman=Country.BLACK;
+    Country CountryFromLastMoveChessman=Country.BLACK;
     Pattern validInputPattern = Pattern.compile("\\d,\\d,\\d,\\d");
     
-    outter:
     while(!(end.equals("exit")) || cb.isWin())
     {
-      System.out.print("please follow fomat: fromX,toX,fromY,toY ");
+      System.out.print("fromX,toX,fromY,toY==> ");
       //restrict input type based on regular expression
       String input = sc.next();
       Matcher inputVerifier = validInputPattern.matcher(input);
@@ -35,27 +34,46 @@ class Game
         int fromY = Integer.parseInt(splitInput[1]);
         int toX  = Integer.parseInt(splitInput[2]);
         int toY  = Integer.parseInt(splitInput[3]);
-
-        Chessman chessman = cb.board.get(new Point(fromX, fromY));
-
-        // check each side only move once chess at a time
-        if(chessman.getCountry() != CountryFromlastMoveChessman)
+        
+        try //catch NullPointerException for [fromX,fromY]
         {
-          System.out.println("from:["+fromX+","+fromY+"], to:["+toX+","+toY+"]");
-          CountryFromlastMoveChessman=chessman.getCountry();
-          cb.move(fromX, fromY, toX, toY);
-          cb.printBoard();
+          Chessman chessman = cb.board.get(new Point(fromX, fromY));
+
+          // check each side only move once chess at a time
+          if(chessman.getCountry() != CountryFromLastMoveChessman)
+          {
+            System.out.println("from:["+fromX+","+fromY+"], to:["+toX+","+toY+"]");
+            try
+            {
+              cb.move(fromX, fromY, toX, toY);
+            }
+            catch(NullPointerException e)
+            {
+              System.out.println("there is no chess at [fromX,fromY]");
+            }
+
+            //change side to play iff move is successful
+            if(cb.isMoveSucceed(fromX,fromY,toX,toY) == true)
+            {
+              CountryFromLastMoveChessman=chessman.getCountry();
+              cb.printBoard();
+            }
+          }
+          else
+          {
+            System.out.println("one side only move once at a time");
+            continue;
+          }
         }
-        else
+        catch(NullPointerException e) 
         {
-          System.out.println("one side only move once at a time");
-          continue outter;
+          System.out.println("no chess at [fromX,fromY]");
+          continue;
         }
       }
       else
       {
         System.out.println("invalid format");
-        System.out.println("please follow: fromX,toX,fromY,toY");
       }
     }
     sc.close();

@@ -65,7 +65,7 @@ public class ChessBoard
       Chessman toChess   = board.get(new Point(toX, toY));
       if(haveChess(toX, toY) && (fromChess.getCountry() == toChess.getCountry())) //can not eat chessman from same country
       {
-        System.out.println("illegel move");
+        System.out.println("can not eat chessman from same country");
       }
       else
       {
@@ -73,7 +73,19 @@ public class ChessBoard
         board.remove(new Point(fromX, fromY));
       }
     }
+    else 
+    {
+      System.out.println("move fail:");
+      System.out.println("position out of bound: "+outOfBoard(fromX,fromY,toX,toY));
+      System.out.println("have chess on start position: "+haveChess(fromX,fromY));
+      System.out.println("follow movement rule: "+isMoveValid(fromX,fromY,toX,toY));
+    } 
   }  
+
+  boolean isMoveSucceed(int fromX, int fromY, int toX, int toY)
+  {
+    return (haveChess(fromX,fromY) == false && haveChess(toX,toY) == true);
+  }
 
   //check move out of board
   boolean outOfBoard(int fromX,int fromY, int toX, int toY)
@@ -98,7 +110,13 @@ public class ChessBoard
   }
 
   boolean isMoveValid(int fromX, int fromY, int toX, int toY)
-  {
+   {
+    //check fromPos != toPos
+    if(fromX == toX && fromY == toY)
+    {
+      System.out.println("start position should not be the same as end position");
+      return false;
+    }
     Chessman chessman = board.get(new Point(fromX,fromY));
     //need to add a if statement to judge chessman block the jurney to (toX, toY)
     switch(chessman.getUnit())
@@ -237,7 +255,6 @@ public class ChessBoard
                  }
                  break;
     }
-    System.out.println("invalid move");
     return false;
   }
 
@@ -254,17 +271,6 @@ public class ChessBoard
     {
       System.out.println("BLACK group win");
     }
-    //Chessman chessman = board.get(new Point(toX, toY));
-    //if(chessman.getCountry() == Country.RED)
-    //{ 
-    //  System.out.println("RED side win");
-    //  return !(board.containsValue(BLACK_JIANG));
-    //}
-    //if(chessman.getCountry() == Country.BLACK)
-    //{
-    //  System.out.println("BLACK side win");
-    //  return !(board.containsValue(RED_JIANG));
-    //}
     return false;
   }
 
