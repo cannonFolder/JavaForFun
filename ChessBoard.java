@@ -51,16 +51,15 @@ public class ChessBoard
     board.put(new Point(8,6), new Chessman(Country.BLACK, Unit.BING));
   }
 
-  /* check have chessman on (fromX, fromY)
+  /* check position is into chess board
+     check have chessman on (fromX, fromY)
      verify move based on chessmans' Unit 
      check have chessman on (toX, toY), if(have) verify country on (toX, toY) 
      put chessman to (toX, toY) remove chessman (fromX, fromY)
    */
   void move(int fromX, int fromY, int toX, int toY)
   {
-    System.out.println("haveChess "+haveChess(fromX,fromY));
-    System.out.println("isMoveValid  "+isMoveValid(fromX,fromY,toX,toY));
-    if(haveChess(fromX, fromY) && isMoveValid(fromX, fromY, toX, toY))
+    if(outOfBoard(fromX, fromY, toX, toY) && haveChess(fromX, fromY) && isMoveValid(fromX, fromY, toX, toY))
     {
       Chessman fromChess = board.get(new Point(fromX, fromY));
       Chessman toChess   = board.get(new Point(toX, toY));
@@ -75,6 +74,21 @@ public class ChessBoard
       }
     }
   }  
+
+  //check move out of board
+  boolean outOfBoard(int fromX,int fromY, int toX, int toY)
+  {
+    if((fromX  >= 0 && fromX  <= 8)&&
+        (toX    >= 0 && toX    <= 8)&&
+        (fromY >= 0 && fromY <= 9)  &&
+        (toY   >= 0 && toY   <= 9))
+      return true;
+    else
+    {
+      System.out.println("input position is out of board");
+      return false;
+    }
+  }
 
   //check chess exist on given position
   boolean haveChess(int x, int y)
@@ -96,68 +110,68 @@ public class ChessBoard
                   {
                     //at centre points & edge points
                     if((fromX == 4 &&fromY == 1)&&
-                       (fromX == 3 &&fromY == 0)&&
-                       (fromX == 5 &&fromY == 0)&&
-                       (fromX == 5 &&fromY == 2)&&
-                       (fromX == 3 &&fromY == 2))
+                        (fromX == 3 &&fromY == 0)&&
+                        (fromX == 5 &&fromY == 0)&&
+                        (fromX == 5 &&fromY == 2)&&
+                        (fromX == 3 &&fromY == 2))
                     {
                       //System.out.println("enter loop");
                       return true;
                     }
                     //at remain points
                     else if((Math.abs(toY-fromY) == 1 && Math.abs(toX-fromX) != 1)||
-                            (Math.abs(toY-fromY) != 1 && Math.abs(toX-fromX) == 1))
+                        (Math.abs(toY-fromY) != 1 && Math.abs(toX-fromX) == 1))
                       return true;
                   }
                   //verify if JAING from BLACK country
                   if((chessman.getCountry() == Country.BLACK)&&
-                          (toX>=3 && toX<=5)&& 
-                          (toY>=7 && toY<=9)&&
-                          (Math.abs(toX-fromX) == 1 || Math.abs(toY-fromY) == 1))
+                      (toX>=3 && toX<=5)&& 
+                      (toY>=7 && toY<=9)&&
+                      (Math.abs(toX-fromX) == 1 || Math.abs(toY-fromY) == 1))
                   {
                     if((fromX == 4 && fromY == 8)&&
-                       (fromX == 3 && fromY == 9)&&
-                       (fromX == 5 && fromY == 9)&&
-                       (fromX == 5 && fromY == 7)&&
-                       (fromX == 3 && fromY == 7))
+                        (fromX == 3 && fromY == 9)&&
+                        (fromX == 5 && fromY == 9)&&
+                        (fromX == 5 && fromY == 7)&&
+                        (fromX == 3 && fromY == 7))
                       return true;
 
                     else if((Math.abs(toY-fromY) == 1 && Math.abs(toX-fromX) != 1)||
-                            (Math.abs(toY-fromY) != 1 && Math.abs(toX-fromX) == 1))
+                        (Math.abs(toY-fromY) != 1 && Math.abs(toX-fromX) == 1))
                       return true;
                   }
                   System.out.println((Math.abs(toX-fromX))+" "+ (Math.abs(toY-fromY)));
                   break;
-      
+
       case SHI: if((chessman.getCountry() == Country.RED)&&
-                   (toX>=3 && toX <=5)&& (toY>=0 && toY <=2)&&
-                   (Math.abs(toY-fromY) == 1 && Math.abs(toX-fromX) == 1)) //only allow to move 1 distance in diagnoal distance
-                    return true;
+                    (toX>=3 && toX <=5)&& (toY>=0 && toY <=2)&&
+                    (Math.abs(toY-fromY) == 1 && Math.abs(toX-fromX) == 1)) //only allow to move 1 distance in diagnoal distance
+                  return true;
 
                 if((chessman.getCountry() == Country.BLACK)&&
-                   (toX>=3 && toX <=5)&&
-                   (toY>=7 && toY <=9)&&
-                   (Math.abs(toY-fromY) == 1 && Math.abs(toX-fromX) == 1))
-                    return true;
+                    (toX>=3 && toX <=5)&&
+                    (toY>=7 && toY <=9)&&
+                    (Math.abs(toY-fromY) == 1 && Math.abs(toX-fromX) == 1))
+                  return true;
                 break;
 
       case XIANG: if((chessman.getCountry() == Country.RED)&&
-                     (Math.abs(toY-fromY) == 2 && Math.abs(toX-fromX) == 2)&&
-                     (toX>=0 && toX<=8)&&
-                     (toY>=0 && toY<=4)&&
-                     (haveChess(Math.max(fromX, toX)-1, Math.max(fromY,toY)-1) == false)) //bie xiang tui
+                      (Math.abs(toY-fromY) == 2 && Math.abs(toX-fromX) == 2)&&
+                      (toX>=0 && toX<=8)&&
+                      (toY>=0 && toY<=4)&&
+                      (haveChess(Math.max(fromX, toX)-1, Math.max(fromY,toY)-1) == false)) //bie xiang tui
                     return true;
-                
+
                   if((chessman.getCountry() == Country.BLACK)&&
-                     (Math.abs(toY-fromY) == 2 && Math.abs(toX-fromX) == 2)&&
-                     (toX>=0 && toX<=8)&&
-                     (toY>=5 && toY<=9)&&
-                     (haveChess(Math.max(fromX, toX)-1, Math.max(fromY,toY)-1) == false)) //bie xiang tui
+                      (Math.abs(toY-fromY) == 2 && Math.abs(toX-fromX) == 2)&&
+                      (toX>=0 && toX<=8)&&
+                      (toY>=5 && toY<=9)&&
+                      (haveChess(Math.max(fromX, toX)-1, Math.max(fromY,toY)-1) == false)) //bie xiang tui
                   {
-                   System.out.println((toX-1)+" "+(toY-1));
-                   return true;
+                    System.out.println((toX-1)+" "+(toY-1));
+                    return true;
                   }
-                break;
+                  break;
 
       case MA: if(Math.abs(toY-fromY) == 2 && Math.abs(toX-fromX) == 1)
                {
@@ -176,72 +190,82 @@ public class ChessBoard
                }
                break;
 
-     case JV: if((countChessForward(fromX, fromY, toX, toY) == 0)&&
-                (fromX == toX || fromY == toY)) 
-                return true;
-                break;
-      
-    
-                 //move similar JV when not attacking
-     case PAO:  if((countChessForward(fromX,fromY,toX,toY) == 0)&&
-                   (fromX == toX || fromY == toY)&&
-                   (haveChess(toX, toY) == false)) 
-                  return true;
-                //when attacking, there must have one unit in the middle
-                else if((countChessForward(fromX,fromY,toX,toY) == 1)&&
-                  (fromX == toX || fromY == toY))
-                {
-                  System.out.println(countChessForward(fromX,fromY,toX,toY));
-                  return true;
-                }
-                break;
+      case JV: if((countChessForward(fromX, fromY, toX, toY) == 0)&&
+                   (fromX == toX || fromY == toY)) 
+                 return true;
+               break;
+
+
+               //move similar JV when not attacking
+      case PAO:  if((countChessForward(fromX,fromY,toX,toY) == 0)&&
+                     (fromX == toX || fromY == toY)&&
+                     (haveChess(toX, toY) == false)) 
+                   return true;
+                 //when attacking, there must have one unit in the middle
+               else if((countChessForward(fromX,fromY,toX,toY) == 1)&&
+                   (fromX == toX || fromY == toY))
+               {
+                 System.out.println(countChessForward(fromX,fromY,toX,toY));
+                 return true;
+               }
+               break;
 
       case BING: if((chessman.getCountry() == Country.RED)&&
-                    (fromX == toX)&&
-                    (fromY < toY)&& //BING never move backward
-                    (toY-fromY == 1)) 
+                     (fromX == toX)&&
+                     (fromY < toY)&& //BING never move backward
+                     (toY-fromY == 1)) 
                    return true;
 
                  if((chessman.getCountry() == Country.BLACK)&&
-                    (fromX == toX)&&
-                    (fromY > toY)&&
-                    (fromY-toY == 1))
-                  return true;
+                     (fromX == toX)&&
+                     (fromY > toY)&&
+                     (fromY-toY == 1))
+                   return true;
 
                  //horizontal move only allowed when BING has acrossed the river
                  if(fromY == toY)
                  {
-                  if((chessman.getCountry() == Country.RED)&&
-                     (fromY > 4)&& //RED BING had acrossed the river
-                     (Math.abs(fromX-toX) == 1))
-                      return true;
-  
-                  if((chessman.getCountry() == Country.BLACK)&&
-                     (fromY < 5)&& //BLACK BING had acrossed the river
-                     (Math.abs(fromX-toX) == 1))
-                      return true;
+                   if((chessman.getCountry() == Country.RED)&&
+                       (fromY > 4)&& //RED BING had acrossed the river
+                       (Math.abs(fromX-toX) == 1))
+                     return true;
+
+                   if((chessman.getCountry() == Country.BLACK)&&
+                       (fromY < 5)&& //BLACK BING had acrossed the river
+                       (Math.abs(fromX-toX) == 1))
+                     return true;
                  }
-               break;
+                 break;
     }
     System.out.println("invalid move");
-    System.out.println(Math.abs(toX-fromX)+" "+Math.abs(toY-fromY));
     return false;
   }
 
-  //after move check value JIANG is still in the board, based on Country movement
-  boolean isWin(int fromX, int fromY, int toX, int toY) 
+  //check unit JIANG is still in the board, based on Country movement
+  boolean isWin()
   {
-    Chessman chessman = board.get(new Point(toX, toY));
-    if(chessman.getCountry() == Country.RED)
-    { 
-      return !(board.containsValue(BLACK_JIANG));
-    }
-    if(chessman.getCountry() == Country.BLACK)
+    if(board.containsValue(BLACK_JIANG) == false)
     {
-      return !(board.containsValue(RED_JIANG));
+      System.out.println("Red group win");
+      return true;
     }
-    else
-      return false;
+
+    if(board.containsValue(RED_JIANG) == false)
+    {
+      System.out.println("BLACK group win");
+    }
+    //Chessman chessman = board.get(new Point(toX, toY));
+    //if(chessman.getCountry() == Country.RED)
+    //{ 
+    //  System.out.println("RED side win");
+    //  return !(board.containsValue(BLACK_JIANG));
+    //}
+    //if(chessman.getCountry() == Country.BLACK)
+    //{
+    //  System.out.println("BLACK side win");
+    //  return !(board.containsValue(RED_JIANG));
+    //}
+    return false;
   }
 
   int countChessForward(int fromX, int fromY, int toX, int toY)
@@ -294,6 +318,9 @@ public class ChessBoard
 
   public void printBoard()
   {
+    String redColor = "\u001B[31m";
+    String greenColor = "\u001B[32m";
+    String whiteColor = "\u001B[37m";
     for(int y=0; y<=9; y++)
     {
       for(int x=0; x<=8; x++)
@@ -303,36 +330,38 @@ public class ChessBoard
           Chessman chessman = board.get(new Point(x, y));
           switch(chessman.getUnit())
           {
-            case JIANG : if(chessman.getCountry() == Country.RED) System.out.print("帅");
-                         else System.out.print("将");
-                         break;
+            case JIANG : if(chessman.getCountry() == Country.RED) System.out.print(redColor+"帅");
+                           else System.out.print(greenColor+"将");
+                           break;
 
-            case SHI :   if(chessman.getCountry() == Country.RED) System.out.print("仕");
-                         else System.out.print("士");
-                         break;
+            case SHI :   if(chessman.getCountry() == Country.RED) System.out.print(redColor+"仕");
+                           else System.out.print(greenColor+"士");
+                           break;
 
-            case XIANG : if(chessman.getCountry() == Country.RED) System.out.print("相");
-                         else System.out.print("象");
-                         break;
+            case XIANG : if(chessman.getCountry() == Country.RED) System.out.print(redColor+"相");
+                           else System.out.print(greenColor+"象");
+                           break;
 
-            case MA :    System.out.print("马");
-                         break;
+            case MA :    if(chessman.getCountry() == Country.RED) System.out.print(redColor+"马");
+                           else System.out.print(greenColor+"馬");
+                           break;
 
-            case JV :    System.out.print("車");
-                         break;
+            case JV :    if(chessman.getCountry() == Country.RED) System.out.print(redColor+"車");
+                           else System.out.print(greenColor+"车");
+                           break;
 
-            case PAO :   if(chessman.getCountry() == Country.RED) System.out.print("炮");
-                         else System.out.print("砲");
-                         break;
+            case PAO :   if(chessman.getCountry() == Country.RED) System.out.print(redColor+"炮");
+                           else System.out.print(greenColor+"砲");
+                           break;
 
-            case BING:   if(chessman.getCountry() == Country.RED) System.out.print("兵");
-                         else System.out.print("卒");
-                         break;
+            case BING:   if(chessman.getCountry() == Country.RED) System.out.print(redColor+"兵");
+                           else System.out.print(greenColor+"卒");
+                           break;
           }
         }
         else
         {
-          System.out.print("口");
+          System.out.print(whiteColor+"口");
         }
       }
       System.out.println();
