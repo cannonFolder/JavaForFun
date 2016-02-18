@@ -19,6 +19,11 @@ class Game
     
     while(!(end.equals("exit")) || cb.isWin())
     {
+      if (cb.isWin() == true)
+      {
+        System.out.print("Game is end");
+        break;
+      }
       System.out.print("fromX,toX,fromY,toY==> ");
       //restrict input type based on regular expression
       String input = sc.next();

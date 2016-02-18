@@ -327,9 +327,10 @@ public class ChessBoard
     String redColor = "\u001B[31m";
     String greenColor = "\u001B[32m";
     String whiteColor = "\u001B[37m";
-    for(int y=0; y<=9; y++)
+    String blueColor = "\u001B[34m";
+    for(int y=0; y<=10; y++)
     {
-      for(int x=0; x<=8; x++)
+      for(int x=0; x<=9; x++)
       {
         if(haveChess(x, y))
         {
@@ -365,6 +366,16 @@ public class ChessBoard
                            break;
           }
         }
+	//print bord position
+	else if(x==9)
+	{
+	    System.out.print(blueColor+y);
+	}
+	else if(y==10)
+	{
+     	    System.out.print(blueColor+x+" ");
+	}
+	//print free chess board space 
         else
         {
           System.out.print(whiteColor+"口");
